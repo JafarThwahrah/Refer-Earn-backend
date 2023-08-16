@@ -14,12 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::controller(App\Http\Controllers\Api\AuthController::class)->name('auth.')->group(function () {
-    Route::post('register', 'register');
-    Route::post('login', 'login');
+Route::controller(App\Http\Controllers\Api\AuthController::class)->prefix('auth')->name('auth.')->group(function () {
+    Route::post('register', 'register')->name('register');
+    Route::post('login', 'login')->name('login');
 });
 
-
+Route::controller(App\Http\Controllers\Api\ReferralClickController::class)->prefix('clicks')->name('clicks.')->group(function () {
+    Route::get('add-clicks/{user_id}', 'handle_referral_click')->name('handle_referral_click');
+});
 //protected routes
 Route::middleware('auth:api')->group(function () {
 });

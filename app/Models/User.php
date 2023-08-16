@@ -56,6 +56,11 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasOne(Wallet::class);
     }
+
+    public function referral_link()
+    {
+        return $this->hasOne(ReferralLink::class);
+    }
     public function getImageAttribute()
     {
         $image = $this->getMedia('user')->first();
