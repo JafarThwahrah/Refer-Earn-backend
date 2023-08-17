@@ -22,6 +22,7 @@ The Refer and Earn App is a platform designed to empower users by enabling them 
 - Laravel 10.10 or higher
 - Laravel/passport 11.8 or higher
 - Composer
+- XAMPP 3.3.0
 - PhpMyAdmin 5.2.1 or higher
 - spatie/laravel-medialibrary 10.0 or higher
 
