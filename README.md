@@ -7,6 +7,8 @@
 - [Requirements](#requirements)
 - [Installation](#installation)
 - [Usage](#usage)
+- [AdminSeeder](#AdminSeeder)
+
 
 ## Introduction
 
@@ -48,4 +50,11 @@ Start the development server:
 
 ```bash
 php artisan serve
+```
+
+## AdminSeeder
+In this app, there is no registration for the admin, you can to create an admin by running the below command
+
+```bash
+php artisan db:seed AdminSeeder
 ```
