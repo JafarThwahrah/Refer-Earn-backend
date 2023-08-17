@@ -10,10 +10,10 @@ services:
             - .:/var/www/html
         environment:
             APP_ENV: local
-            APP_KEY: base64:your-app-key-here
+            APP_KEY: base64:2Yom9Lvu0C3INq3Xiu4g0zitnOpYeE7NBitYXSWfF8I=
             DB_CONNECTION: mysql
             DB_HOST: mysql
             DB_PORT: 3306
-            DB_DATABASE: your-database-name
+            DB_DATABASE: refer-earn-app
             DB_USERNAME: root
             DB_PASSWORD:
