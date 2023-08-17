@@ -18,10 +18,9 @@ The Refer and Earn App is a platform designed to empower users by enabling them 
 
 ## Requirements
 
-Mention any software, libraries, or tools that are required to run your app. For example:
-
 - PHP 8.1 or higher
 - Laravel 10.10 or higher
+- Laravel/passport 11.8 or higher
 - Composer
 - PhpMyAdmin 5.2.1 or higher
 - spatie/laravel-medialibrary 10.0 or higher
@@ -31,4 +30,24 @@ Mention any software, libraries, or tools that are required to run your app. For
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/yourapp.git
+git clone https://github.com/JafarThwahrah/Refer-Earn-backend.git
+```
+
+2. Navigate to the project directory:
+
+```bash
+cd Refer-Earn-backend
+```
+3. Install dependencies using Composer:
+
+```bash
+composer install
+```
+
+## Usage
+
+Start the development server:
+
+```bash
+php artisan serve
+```
