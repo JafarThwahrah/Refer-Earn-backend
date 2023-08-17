@@ -13,4 +13,8 @@ class Point extends Model
         'wallet_id',
         'points',
     ];
+
+    protected $casts = [
+        'points' => 'integer',
+    ];
 }

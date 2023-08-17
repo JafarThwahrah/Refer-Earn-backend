@@ -12,14 +12,14 @@ use App\Models\ReferrerReferred;
 use App\Models\User;
 use App\Models\Wallet;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
     public function register(RegisterRequest $request)
     {
-
-
+        //validation with RegisterRequest
 
         $user = User::create([
             'name' => $request->name,
@@ -29,17 +29,23 @@ class AuthController extends Controller
             'birth_date' => $request->birth_date,
             'is_admin' => false,
         ]);
+
+        //create wallet and referralLink instances for the user
         Wallet::create([
             'user_id' => $user->id,
         ]);
         ReferralLink::create([
             'user_id' => $user->id,
         ]);
+        //handling image using spatie
         if ($request->hasFile('image')) {
             $user->addMedia($request->file('image'))->toMediaCollection('user');
         }
+
+        //generating access token
         $user->access_token = $user->createToken('authToken')->accessToken;
 
+        //calculating points for the user
         if ($request->referrer_id) {
             $referrer_user = User::find($request->referrer_id);
             if ($referrer_user) {
@@ -78,8 +84,8 @@ class AuthController extends Controller
 
     public function login(LoginRequest $request)
     {
+        //authentication process
         $user = User::where('email', $request->email)->first();
-
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
                 'status' => 401,
@@ -93,8 +99,19 @@ class AuthController extends Controller
 
         return response()->json([
             'status' => 200,
-            'message' => 'Login successfull',
+            'message' => 'Login successful',
             'data' => new UserResource($user),
+        ], 200);
+    }
+
+    public function logout()
+    {
+        Auth::guard('api')->logout();
+
+        return response()->json([
+            'status' => 200,
+            'message' => 'logout successful',
+            'data' => null,
         ], 200);
     }
 }

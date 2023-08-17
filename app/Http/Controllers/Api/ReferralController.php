@@ -7,8 +7,9 @@ use App\Models\ReferralClick;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class ReferralClickController extends Controller
+class ReferralController extends Controller
 {
+    //here we handle counting views and unique views
     public function handle_referral_click(Request $request, $user_id)
     {
         // Get the referrer user
@@ -28,7 +29,7 @@ class ReferralClickController extends Controller
             'visitor_ip' => $request->ip(),
         ]);
 
-        // check if the visitor is unique or not within 24 hours
+        // check if the visitor is unique or not
         $check_unique_visitor = ReferralClick::where('referrer_id', $referrer_user->id)
             ->where('visitor_ip', $request->ip())
             ->count();

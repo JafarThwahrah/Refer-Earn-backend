@@ -51,7 +51,7 @@ class User extends Authenticatable implements HasMedia
     protected $append = [
         'image',
     ];
-
+    //some eloquent relations
     public function wallet()
     {
         return $this->hasOne(Wallet::class);
@@ -61,12 +61,20 @@ class User extends Authenticatable implements HasMedia
     {
         return $this->hasOne(ReferralLink::class);
     }
+
+    public function points()
+    {
+        return $this->hasMany(Point::class);
+    }
+
+    //image attribute for the user
     public function getImageAttribute()
     {
         $image = $this->getMedia('user')->first();
         if ($image) {
             return $image->getFullUrl();
         }
+        //if there is no image return default image to avoid errors
         return asset("images/default_image.png");
     }
 }
