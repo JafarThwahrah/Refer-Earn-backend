@@ -53,7 +53,7 @@ php artisan serve
 ```
 
 ## AdminSeeder
-In this app, there is no registration for the admin, you can to create an adminby running the below command
+In this app, there is no registration for the admin, you can to create an admin by running the below command
 
 ```bash
 php artisan db:seed AdminSeeder
