@@ -26,6 +26,7 @@ class User extends Authenticatable implements HasMedia
         'phone',
         'birth_date',
         'is_admin',
+        'level'
 
     ];
 

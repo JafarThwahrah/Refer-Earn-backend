@@ -21,7 +21,7 @@ class AuthController extends Controller
     {
         //validation with RegisterRequest
 
-        $user = User::create([
+        $new_user = User::create([
             'name' => $request->name,
             'phone' => $request->phone,
             'email' => $request->email,
@@ -32,28 +32,40 @@ class AuthController extends Controller
 
         //create wallet and referralLink instances for the user
         Wallet::create([
-            'user_id' => $user->id,
+            'user_id' => $new_user->id,
         ]);
         ReferralLink::create([
-            'user_id' => $user->id,
+            'user_id' => $new_user->id,
         ]);
         //handling image using spatie
         if ($request->hasFile('image')) {
-            $user->addMedia($request->file('image'))->toMediaCollection('user');
+            $new_user->addMedia($request->file('image'))->toMediaCollection('user');
         }
 
         //generating access token
-        $user->access_token = $user->createToken('authToken')->accessToken;
-
-        //calculating points for the user
+        $new_user->access_token = $new_user->createToken('authToken')->accessToken;
+        //checking if the new user come from referral link
         if ($request->referrer_id) {
             $referrer_user = User::find($request->referrer_id);
             if ($referrer_user) {
+                //increment referrer referreds
                 ReferrerReferred::create([
                     'referrer_id' => $referrer_user->id,
-                    'referred_id' => $user->id
+                    'referred_id' => $new_user->id
                 ]);
-
+                //checking the count of  of referreds for the referrer for the level
+                $num_of_referred_users = ReferrerReferred::where('referrer_id', $referrer_user->id)->count();
+                //updating level based on num_of_referred_users, im also checking the user current level to not make unnecessery queries with the database
+                if ($num_of_referred_users > 10 && $referrer_user->level != "Master Referrer") {
+                    $referrer_user->update([
+                        'level' => "Master Referrer"
+                    ]);
+                } elseif ($num_of_referred_users > 5 && $referrer_user->level != "Expert Referrer") {
+                    $referrer_user->update([
+                        'level' => "Expert Referrer"
+                    ]);
+                }
+                //calculating points for the user
                 $referreds_per_user = ReferrerReferred::where('referrer_id', $referrer_user->id)->get()->count();
                 if ($referreds_per_user <= 5)
                     Point::create([
@@ -78,7 +90,7 @@ class AuthController extends Controller
         return response()->json([
             'status' => 201,
             "message" => 'Registration Successful',
-            "data" => new UserResource($user),
+            "data" => new UserResource($new_user),
         ], 201);
     }
 

@@ -25,13 +25,12 @@ class ProfileController extends Controller
             'total_views' => $referal_link->total_views,
             'unique_views' => $referal_link->unique_views,
             'total_points' => $points_sum,
+            //the referral url equals the register url + the user id 
             'referral_link' => env('REGISTER_URL') . $user->id,
             'user_image' => $user->image,
             'user_name' => $user->name,
+            'level' => $user->level,
             'is_admin' => $user->is_admin
-
-
-            //the referral url equals the register url on the frontend + the user id 
         ];
 
         //get points grouped by date for the last 14 days for userprofile points chart
